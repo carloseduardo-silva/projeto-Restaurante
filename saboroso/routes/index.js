@@ -1,56 +1,110 @@
 var express = require('express');
 var router = express.Router();
-//var que instancia a conexão com o db.
+var menus = require('./../inc/menus')
 var conn = require('./../inc/db')
+var reservation = require('./../inc/reservation')
+var contact = require('./../inc/contact')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  //realiazando uma query no mysql, armazenando o resultado em variaveis apresentaveis por meio de EJSTAGS no html.
-  conn.query('SELECT * FROM tb_menus ORDER BY title', (err, resul) =>{
-
-    if(err){
-      console.log(err)
-    }
-    else{
+    menus.getMenus().then(results =>{
       res.render('index', { 
         title: 'Restaurante Saboroso',
-        menus: resul
+        menus: results,
+        isHome: true
        });
 
-    }
-
-  })
+    })
 });
 
 router.get('/contact', function(req, res, next) {
-  res.render('contact',{
-     title: 'Contato - Restaurante Saboroso',
-     background:'images/img_bg_3.jpg',
-     h1: 'Diga um oi!'
-  })
+    contact.render(res, req)
+})
+
+router.post('/contact', function(req, res, next) {
+
+
+    if(!req.body.name){
+      contact.render(res, req, 'Digite o Nome!')
+    }else if(!req.body.email){
+      contact.render(res, req, 'Digite o Email!')
+    }else if(!req.body.message){
+      contact.render(res, req, 'Digite algo!')
+    } else{
+       contact.save(req.body).then(result =>{
+
+        req.body = {}
+
+        contact.render(res, req, null, 'Mensagem enviada com sucesso!')
+
+      }).catch(err =>{
+        contact.render(res, req, err.message)
+      })
+
+    }
 })
 
 router.get('/menu', function(req, res, next) {
-  res.render('menu',{
-     title: 'Menu - Restaurante Saboroso',
-     background:'images/img_bg_1.jpg',
-     h1: 'Saboreie o nosso menu!'
+
+  menus.getMenus().then(results =>{
+
+    res.render('menu',{
+       title: 'Menu - Restaurante Saboroso',
+       background:'images/img_bg_1.jpg',
+       h1: 'Saboreie o nosso menu!',
+       menus: results,
+       isHome: false
+    })
+
   })
+
 })
 
 router.get('/reservation', function(req, res, next) {
-  res.render('reservation',{
-     title: 'Reservas - Restaurante Saboroso',
-     background:'images/img_bg_2.jpg',
-     h1: 'Reserve um Mesa!'
-  })
+
+  reservation.render(req, res)
+
+})
+
+router.post('/reservation', function(req, res, next) {
+  //receiving datas from forms that has the route '/reservation' and method='post', rightafter validating those datas and sending then to the mysql
+  if(!req.body.name){
+    reservation.render(req, res, 'Digite o nome!')
+    
+  }else if(!req.body.email){
+    reservation.render(req, res, 'Digite o email !')
+
+  }else if(!req.body.people){
+    reservation.render(req, res, 'Selecione o numero de pessoas !')
+
+  }else if(!req.body.date){
+    reservation.render(req, res, 'Selecione a data !')
+
+  }else if(!req.body.time){
+    reservation.render(req, res, 'Selecione a hora !')
+   
+  } 
+  else {
+    reservation.save(req.body).then(result =>{
+
+      req.body = {}
+
+      reservation.render(req, res, null, 'Reserva realizada com sucesso!')
+
+    }).catch(err =>{
+      reservation.render(req, res, err.message)
+    })
+  }
+  
+
 })
 
 router.get('/services', function(req, res, next) {
   res.render('services',{
      title: 'Serviços - Restaurante Saboroso',
      background:'images/img_bg_1.jpg',
-     h1: 'É um prazer poder servir!'
+     h1: 'É um prazer poder servir!',
+     isHome: false
   })
 })
 
