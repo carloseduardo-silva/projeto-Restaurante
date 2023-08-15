@@ -11,6 +11,7 @@ module.exports = {
             body: req.body,
             error,
             sucess
+            //some objects that can be used in the html trought de  EJSTags(embeded js)
 
          })
     },
