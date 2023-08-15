@@ -57,16 +57,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1.</td>
-                  <td><img src="dist/img/boxed-bg.jpg" alt="" style="height: 18px;"></td>
-                  <td>Update software</td>
-                  <td>Diuretics paradis num copo é motivis de denguis.</td>
-                  <td>R$1,99</td>
-                  <td><button type="button" class="btn btn-xs btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i
+                <% data.forEach(function(row){ %>  
+                <tr data-row="<%=JSON.stringify(row)%>">
+                  <td><%= row.id%></td>
+                  <td><img src="/<%= row.photo%>" alt="" style="height: 18px;"></td>
+                  <td><%= row.title%></td>
+                  <td><%= row.description%></td>
+                  <td><%= row.price%>R$</td>
+                  <td><button type="button" class="btn btn-xs btn-info btn-update" ><i
                         class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button" class="btn btn-xs btn-danger btn-delete"><i
                         class="fa fa-trash"></i> Excluir</button></td>
                 </tr>
+                <% }) %>
               </tbody>
             </table>
           </div>
@@ -162,35 +164,66 @@
    <%- include("inc/admin-footer") -%>
   </div>
 
-  <!-- jQuery 3 -->
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap 3.3.7 -->
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <!-- PACE -->
-  <script src="bower_components/PACE/pace.min.js"></script>
-  <!-- SlimScroll -->
-  <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-  <!-- FastClick -->
-  <script src="bower_components/fastclick/lib/fastclick.js"></script>
-  <!-- AdminLTE App -->
-  <script src="dist/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="dist/js/demo.js"></script>
-  <!-- page script -->
-  <script type="text/javascript">
-    // To make Pace works on Ajax calls
-    $(document).ajaxStart(function () {
-      Pace.restart()
-    })
-    $('.ajax').click(function () {
-      $.ajax({
-        url: '#', success: function (result) {
-          $('.ajax-content').html('<hr>Ajax Request Completed !')
-        }
-      })
-    })
-  </script>
-
 </body>
+
+<script>
+
+  let formCreate = document.querySelector('#modal-create form')
+ 
+  formCreate.addEventListener('submit', e =>{
+
+    e.preventDefault();
+
+    let formCreateData = new FormData(formCreate)
+
+    fetch('/admin/menus', {
+      method:'POST',
+      body: formCreateData
+    })
+    .then(response =>{response.json()
+    .then(json => {
+      
+      window.location.reload()
+
+    })
+    
+    })
+
+  });
+
+  let formUpdate = document.querySelector('#modal-update');
+  
+  [...document.querySelectorAll('.btn-update')].forEach(btn =>{
+
+    btn.addEventListener('click', e=>{
+      //map de closest el with the atribute in the str
+      let tr = e.target.closest('[data-row]')
+      //datas from the row that had the editBtn clicked
+      let data = JSON.parse(tr.dataset.row)
+
+      
+      for(let name in data){
+
+        switch(name){
+          case "photo":
+
+          break;
+
+          default:
+            let input =  formUpdate.querySelector(`[name=${name}]`)
+           if(input) input.value = data[name]
+
+        }
+
+
+      }
+
+      $('#modal-update').modal('show')
+
+    })
+  })
+
+</script>
+
 
 </html>

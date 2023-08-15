@@ -39,14 +39,14 @@
 
         <div class="row">
           <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box" onclick="window.location.href = '/reservations'" style="cursor:pointer">
+            <div class="info-box" onclick="window.location.href = '/reservation'" style="cursor:pointer">
               <span class="info-box-icon bg-aqua">
                 <i class="ion ion-ios-calendar"></i>
               </span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Reservas</span>
-                <span class="info-box-number">90</span>
+                <span class="info-box-number"><%= reservas%> </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -54,14 +54,14 @@
           </div>
           <!-- /.col -->
           <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box" onclick="window.location.href = '/contacts'" style="cursor:pointer">
+            <div class="info-box" onclick="window.location.href = '/contact'" style="cursor:pointer">
               <span class="info-box-icon bg-red">
                 <i class="ion ion-ios-chatboxes"></i>
               </span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Contatos</span>
-                <span class="info-box-number">41</span>
+                <span class="info-box-number"><%= contatos%> </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -80,7 +80,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Menu</span>
-                <span class="info-box-number">3</span>
+                <span class="info-box-number"><%= menu%> </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -88,14 +88,14 @@
           </div>
           <!-- /.col -->
           <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box" onclick="window.location.href = '/users'" style="cursor:pointer">
+            <div class="info-box" onclick="window.location.href = '/user'" style="cursor:pointer">
               <span class="info-box-icon bg-yellow">
                 <i class="ion ion-ios-people-outline"></i>
               </span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Usuários</span>
-                <span class="info-box-number">2</span>
+                <span class="info-box-number"><%= usersNumber%> </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -112,36 +112,7 @@
     <!-- Main Footer -->
     <%- include("inc/admin-footer") -%>
 
-  </div>
 
-  <!-- jQuery 3 -->
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap 3.3.7 -->
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <!-- PACE -->
-  <script src="bower_components/PACE/pace.min.js"></script>
-  <!-- SlimScroll -->
-  <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-  <!-- FastClick -->
-  <script src="bower_components/fastclick/lib/fastclick.js"></script>
-  <!-- AdminLTE App -->
-  <script src="dist/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="dist/js/demo.js"></script>
-  <!-- page script -->
-  <script type="text/javascript">
-    // To make Pace works on Ajax calls
-    $(document).ajaxStart(function () {
-      Pace.restart()
-    })
-    $('.ajax').click(function () {
-      $.ajax({
-        url: '#', success: function (result) {
-          $('.ajax-content').html('<hr>Ajax Request Completed !')
-        }
-      })
-    })
-  </script>
 
 </body>
 
