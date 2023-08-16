@@ -99,15 +99,20 @@ router.get('/menus', function(req, res, next){
 router.post('/menus', function(req, res, next){
 
     //fix sending the original filename from req.files to the mysql.
+    //typeof req.files.photo = object
+    
 
-    admin.postMenus(req.fields, req.files).then(results =>{
+    console.log(typeof(req.files.photo))
+   admin.postMenus(req.fields, req.files).then(results =>{
 
         res.send(results)
+        
 
     }).catch(err =>{
-        res.send(err)
+       res.send(err)
     })
    
+  
 
 
 })

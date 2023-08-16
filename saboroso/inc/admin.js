@@ -5,7 +5,7 @@ var conn = require('./db')
 module.exports = {
 
     dashBoard(){
-
+        //get the dashboard informations in real time from mysql
         return new Promise((s, f) =>{
             conn.query(`
             SELECT
@@ -36,7 +36,7 @@ module.exports = {
 
 
     postMenus(data, files){
-
+        // saving a new menu/product to the mysql
         return new Promise((s, f) =>{
 
             
@@ -71,7 +71,7 @@ module.exports = {
 
 
     getMenus(req){
-
+        //function that append the object with the list of config menus and verificating wich is active:true, receveing only the request for acess req.url (url from the route in use)
         let menus = [
             {
                 text: 'Tela inicial',
