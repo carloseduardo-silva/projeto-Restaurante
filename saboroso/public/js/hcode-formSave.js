@@ -10,8 +10,8 @@ HTMLFormElement.prototype.save = function(){
         
             let formData = new FormData(form)
         
-            fetch('/admin/menus', {
-              method:form.method,
+            fetch(form.action, {
+              method: form.method,
               body: formData
             })
             .then(response => response.json())

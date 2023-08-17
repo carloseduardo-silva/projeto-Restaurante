@@ -175,39 +175,20 @@
   
 
   new hcodeFileReader('#modal-create input[type=file]', '#modal-create img')
+  new hcodeFileReader('#modal-update input[type=file]', '#modal-update img')
+
 
   let formCreate = document.querySelector('#modal-create form');
-  let formUpdate = document.querySelector('#modal-update form');
-  
-
-        formCreate.addEventListener('submit', e =>{
-
-            e.preventDefault();
-        
-            let formData = new FormData(formCreate)
-        
-            fetch('/admin/menus', {
-              method:'POST',
-              body: formData
-            })
-            .then(response => response.json())
-            .then(json => {
-                
-               window.location.reload()
-        
-            })
-            
-            });
-          
-
-
-  /*
+//new method to the prototype plugin for saving the sent datas.
  formCreate.save().then(json =>{
   window.location.reload()
  }).catch(err =>{
     console.log(err)
- })*/
+ })
 
+
+ let formUpdate = document.querySelector('#modal-update form');
+//new method to the prototype plugin for saving the datas edited
  formUpdate.save().then(json =>{
   window.location.reload()
  }).catch(err =>{
@@ -215,7 +196,7 @@
  });
 
   
-  
+  //returning the datas to the edit panel create
   [...document.querySelectorAll('.btn-update')].forEach(btn =>{
 
     btn.addEventListener('click', e=>{
@@ -245,5 +226,34 @@
 
     })
   })
+
+  //excluding datas
+  document.querySelectorAll('button.btn-delete').forEach(btn =>{
+
+     
+
+      btn.addEventListener('click', e =>{
+        let tr = e.target.closest('[data-row]')
+        let data = JSON.parse(tr.dataset.row)
+
+        if (confirm(`Deseja realmente excluir ${data.title} ?`)){
+
+          fetch(`/admin/menus/${data.id}`, {
+            method: 'DELETE'
+          })
+          .then(response => response.json())
+          .then(json => {
+              
+              window.location.reload()
+            }
+          )
+
+        }
+
+
+  })
+})
+  
+
 
 </script>

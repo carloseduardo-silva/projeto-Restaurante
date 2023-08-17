@@ -3,6 +3,7 @@ var users = require('./../inc/users');
 const admin = require('../inc/admin');
 var router = express.Router();
 var menus = require('.././inc/menus');
+const reservation = require('../inc/reservation');
 
 
 
@@ -103,8 +104,8 @@ router.post('/menus', function(req, res, next){
     //fix sending the original filename from req.files to the mysql.
     //typeof req.files.photo = object
     
-   admin.postMenus(req.fields, req.files).then(results =>{
-
+   menus.postMenus(req.fields, req.files).then(results =>{
+        
         res.send(results)
         
 
@@ -117,11 +118,61 @@ router.post('/menus', function(req, res, next){
 
 })
 
+//req.params it is the var declarated(:) righafter the ':' in the route way
+router.delete('/menus/:id', function(req, res, next){
+
+    menus.excludeMenu(req.params.id).then(result =>{
+
+        res.send(result)
+
+    }).catch(err =>{
+
+        res.send(err)
+
+    })
+
+})
+
 router.get('/reservations', function(req, res, next){
 
-    res.render('admin/reservations',  admin.getParams(req, {
-        date: ''
-    }))
+    reservation.getReservations().then(data =>{
+
+        res.render('admin/reservations',  admin.getParams(req, {
+            data,
+            date: ''
+        }))
+
+    })
+
+})
+
+router.post('/reservations', function(req, res, next){
+
+
+    reservation.save(req.fields, req.files).then(result =>{
+
+        res.send(result)
+
+    }).catch(err =>{
+
+        res.send(err)
+    })
+
+
+})
+
+router.delete('/reservations/:id', function(req, res, next){
+
+    reservation.excludeReservation(req.params.id).then(result =>{
+
+        res.send(result)
+
+    }).catch(err =>{
+
+        res.send(err)
+
+    })
+
 })
 
 router.get('/users', function(req, res, next){

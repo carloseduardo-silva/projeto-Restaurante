@@ -84,17 +84,20 @@
                 </tr>
               </thead>
               <tbody>
+                <% data.forEach(function(row){  %>
                 <tr>
-                  <td>1.</td>
-                  <td>Hcode</td>
-                  <td>contato@hcode.com.br</td>
-                  <td>2</td>
-                  <td>1/1/2019</td>
-                  <td>10:30</td>
+                  <td><%= row.id %></td>
+                  <td><%= row.name %></td>
+                  <td><%= row.email %></td>
+                  <td><%= row.people %></td>
+                  <td><%= row.date %></td>
+                  <td><%= row.time %></td>
                   <td><button type="button" class="btn btn-xs btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i
                         class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button" class="btn btn-xs btn-danger btn-delete"><i
                         class="fa fa-trash"></i> Excluir</button></td>
                 </tr>
+
+                <%})%>
               </tbody>
             </table>
           </div>
@@ -119,7 +122,7 @@
     <div class="modal fade" id="modal-create">
       <div class="modal-dialog">
         <div class="modal-content" style="border-top: 3px solid #00a65a;">
-          <form method="post">
+          <form method="post" action="/admin/reservations">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -222,35 +225,35 @@
 
   </div>
 
-  <!-- jQuery 3 -->
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap 3.3.7 -->
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <!-- PACE -->
-  <script src="bower_components/PACE/pace.min.js"></script>
-  <!-- SlimScroll -->
-  <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-  <!-- FastClick -->
-  <script src="bower_components/fastclick/lib/fastclick.js"></script>
-  <!-- AdminLTE App -->
-  <script src="dist/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="dist/js/demo.js"></script>
-  <!-- page script -->
-  <script type="text/javascript">
-    // To make Pace works on Ajax calls
-    $(document).ajaxStart(function () {
-      Pace.restart()
-    })
-    $('.ajax').click(function () {
-      $.ajax({
-        url: '#', success: function (result) {
-          $('.ajax-content').html('<hr>Ajax Request Completed !')
-        }
-      })
-    })
-  </script>
-
 </body>
 
 </html>
+
+<script src="/js/hcode-formSave.js"></script>
+
+<script>
+     
+  let formCreate = document.querySelector('#modal-create form');
+//new method to the prototype plugin for saving the sent datas.
+ formCreate.save().then(json =>{
+  window.location.reload()
+ }).catch(err =>{
+    console.log(err)
+ })
+
+
+ let formUpdate = document.querySelector('#modal-update form');
+//new method to the prototype plugin for saving the datas edited
+ formUpdate.save().then(json =>{
+  window.location.reload()
+ }).catch(err =>{
+    console.log(err)
+ });
+
+
+ 
+
+    
+
+
+</script>

@@ -1,6 +1,7 @@
 var path = require('path')
 var conn = require('./db')
 
+
 module.exports = {
 
     dashBoard(){
@@ -30,39 +31,6 @@ module.exports = {
             menus: req.menus,
             user: req.session.user
         }, params)
-
-    },
-
-
-    postMenus(data, files){
-        // saving a new menu/product to the mysql
-        return new Promise((s, f) =>{
-
-            //data.photo = `images/${path.parse(files.photo.//filepath).base}`
-            //files.photo = persistentFile de merda
-            data.photo = `images/${files.photo}`
-
-            conn.query(`
-            INSERT INTO tb_menus (title, description, price, photo)
-            VALUES (?, ?, ?, ?)`, 
-            [
-                
-                data.title,
-                data.description,
-                data.price,
-                data.photo
-            ], (err, results) => {
-    
-                if(err){
-                    f(err)
-                }
-                else{
-                    s(results)
-                }
-    
-            })
-        })
-
 
     },
 
