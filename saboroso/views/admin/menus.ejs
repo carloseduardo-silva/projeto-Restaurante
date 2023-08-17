@@ -83,7 +83,7 @@
     <div class="modal fade" id="modal-create">
       <div class="modal-dialog">
         <div class="modal-content" style="border-top: 3px solid #00a65a;">
-          <form method="post">
+          <form method="post" >
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -123,7 +123,7 @@
     <div class="modal fade" id="modal-update">
       <div class="modal-dialog">
         <div class="modal-content" style="border-top: 3px solid #00c0ef;">
-          <form method="post">
+          <form method="post" action="/admin/menus">
             <input type="hidden" name="id">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -165,37 +165,56 @@
   </div>
 
 </body>
+</html>
 
+<script src="/js/hcode-filereader.js"></script>
 
+<script src="/js/hcode-formSave.js"></script>
 
 <script>
+  
 
-  //new HcodeFileReader('modal-create [type=file]', 'modal-create img')
+  new hcodeFileReader('#modal-create input[type=file]', '#modal-create img')
 
-  let formCreate = document.querySelector('#modal-create form')
- 
-  formCreate.addEventListener('submit', e =>{
+  let formCreate = document.querySelector('#modal-create form');
+  let formUpdate = document.querySelector('#modal-update form');
+  
 
-    e.preventDefault();
+        formCreate.addEventListener('submit', e =>{
 
-    let formCreateData = new FormData(formCreate)
+            e.preventDefault();
+        
+            let formData = new FormData(formCreate)
+        
+            fetch('/admin/menus', {
+              method:'POST',
+              body: formData
+            })
+            .then(response => response.json())
+            .then(json => {
+                
+               window.location.reload()
+        
+            })
+            
+            });
+          
 
-    fetch('/admin/menus', {
-      method:'POST',
-      body: formCreateData
-    })
-    .then(response =>{response.json()
-    .then(json => {
-      
-      window.location.reload()
 
-    })
-    
-    })
+  /*
+ formCreate.save().then(json =>{
+  window.location.reload()
+ }).catch(err =>{
+    console.log(err)
+ })*/
 
-  });
+ formUpdate.save().then(json =>{
+  window.location.reload()
+ }).catch(err =>{
+    console.log(err)
+ });
 
-  let formUpdate = document.querySelector('#modal-update');
+  
   
   [...document.querySelectorAll('.btn-update')].forEach(btn =>{
 
@@ -210,12 +229,12 @@
         //throwing back the values from the panel to the edit menu panel
         switch(name){
           case "photo":
-
+          formUpdate.querySelector('img').src = "/"+data[name];
           break;
 
           default:
             let input =  formUpdate.querySelector(`[name=${name}]`)
-           if(input) input.value = data[name]
+            if(input) input.value = data[name]
 
         }
 
@@ -228,6 +247,3 @@
   })
 
 </script>
-
-
-</html>

@@ -27,17 +27,16 @@ app.use(function(req, res, next){
     console.log('---------')
     console.log(content_type)
 
-  var form = new formidable.IncomingForm({
-    uploadDir: path.join(__dirname, '/public/images'),
-    keepExtensions: true,
-
-  })
+    var form = new formidable.IncomingForm({
+      uploadDir:path.join(__dirname, '/public/images'),
+      keepExtensions: true
+  });
 
   form.parse(req, function(err, fields, files){
     req.fields = fields
     req.files = files
 
-    next()
+    next();
 
   })}
   else{

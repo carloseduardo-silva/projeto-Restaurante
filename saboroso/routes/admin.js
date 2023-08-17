@@ -63,10 +63,12 @@ router.post('/login', function(req, res, next){
     else{
         users.login(req.body.email, req.body.password).then(user =>{
 
+            console.log(user)
             req.session.user = user;
             res.redirect('/admin')
 
         }).catch(err =>{
+            console.log('error')
             users.render(res, req, err.message || err)
         })
     }
@@ -85,7 +87,7 @@ router.get('/contacts', function(req, res, next){
 })
 
 router.get('/menus', function(req, res, next){
-
+    
     menus.getMenus().then(data =>{
 
         res.render('admin/menus',  admin.getParams(req, {
@@ -101,8 +103,6 @@ router.post('/menus', function(req, res, next){
     //fix sending the original filename from req.files to the mysql.
     //typeof req.files.photo = object
     
-
-    console.log(typeof(req.files.photo))
    admin.postMenus(req.fields, req.files).then(results =>{
 
         res.send(results)

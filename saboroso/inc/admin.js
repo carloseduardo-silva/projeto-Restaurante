@@ -1,5 +1,4 @@
 var path = require('path')
-
 var conn = require('./db')
 
 module.exports = {
@@ -39,11 +38,9 @@ module.exports = {
         // saving a new menu/product to the mysql
         return new Promise((s, f) =>{
 
-            
-
+            //data.photo = `images/${path.parse(files.photo.//filepath).base}`
+            //files.photo = persistentFile de merda
             data.photo = `images/${files.photo}`
-
-
 
             conn.query(`
             INSERT INTO tb_menus (title, description, price, photo)
