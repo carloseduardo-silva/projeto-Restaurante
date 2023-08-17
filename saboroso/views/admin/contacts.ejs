@@ -18,6 +18,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
 
+    
     <%- include("inc/admin-header") -%>
 
     <!-- Content Wrapper. Contains page content -->
@@ -53,17 +54,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1.</td>
-                  <td>Hcode</td>
-                  <td>contato@hcode.com.br</td>
-                  <td>Mussum Ipsum, cacilds vidis litro abertis. Manduma pindureta quium dia nois paga. Viva Forevis
-                    aptent taciti sociosqu ad
-                    litora torquent. In elementis mé pra quem é amistosis quis leo. Admodum accumsan disputationi eu
-                    sit. Vide electram sadipscing
-                    et per.</td>
+                <% data.forEach(function(row){  %>
+                <tr data-row="<%= JSON.stringify(row) %>">
+                  <td><%= row.id %></td>
+                  <td><%= row.name %></td>
+                  <td><%= row.email %></td>
+                  <td><%= row.message %></td>
                   <td><button type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-trash"></i> Excluir</button></td>
                 </tr>
+
+                <% }) %>
               </tbody>
             </table>
           </div>
@@ -78,21 +78,6 @@
     <%- include("inc/admin-footer") -%>
   </div>
 
-  <!-- jQuery 3 -->
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap 3.3.7 -->
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <!-- PACE -->
-  <script src="bower_components/PACE/pace.min.js"></script>
-  <!-- SlimScroll -->
-  <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-  <!-- FastClick -->
-  <script src="bower_components/fastclick/lib/fastclick.js"></script>
-  <!-- AdminLTE App -->
-  <script src="dist/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="dist/js/demo.js"></script>
-  <!-- page script -->
 
 </body>
 

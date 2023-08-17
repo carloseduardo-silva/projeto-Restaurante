@@ -51,7 +51,7 @@ module.exports = {
                 fields.time];
 
             if(parseInt(fields.id) > 0 ){
-                query = `UPDATA tb_reservations
+                query = `UPDATE tb_reservations
                 SET
                     name = ?,
                     email = ?,

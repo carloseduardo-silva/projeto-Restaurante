@@ -1,10 +1,13 @@
 var express = require('express');
 var users = require('./../inc/users');
-const admin = require('../inc/admin');
+var admin = require('../inc/admin');
 var router = express.Router();
 var menus = require('.././inc/menus');
-const reservation = require('../inc/reservation');
+var reservation = require('../inc/reservation');
+var contact = require('.././inc/contact')
+var moment = require('moment')
 
+moment.locale('pt-br')
 
 
 //middleware verificating if the client already did the login(if has a req.session.user), not allowing acess to all pages before a login.
@@ -84,7 +87,14 @@ router.get('/login', function(req, res, next){
 
 router.get('/contacts', function(req, res, next){
 
-    res.render('admin/contacts',  admin.getParams(req))
+    contact.getContacts().then(data =>{
+
+        res.render('admin/contacts',  admin.getParams(req, {
+            data
+        }))
+
+    })
+
 })
 
 router.get('/menus', function(req, res, next){
@@ -139,7 +149,8 @@ router.get('/reservations', function(req, res, next){
 
         res.render('admin/reservations',  admin.getParams(req, {
             data,
-            date: ''
+            date: '',
+            moment
         }))
 
     })
@@ -177,7 +188,14 @@ router.delete('/reservations/:id', function(req, res, next){
 
 router.get('/users', function(req, res, next){
 
-    res.render('admin/users',  admin.getParams(req))
+    users.getUsers().then(data =>{
+
+        res.render('admin/users',  admin.getParams(req, {
+            data
+        }))
+
+    })
+
 })
 router.get('/emails', function(req, res, next){
 
