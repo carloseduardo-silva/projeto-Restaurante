@@ -87,6 +87,21 @@ module.exports = {
      
 
 
+    },
+
+    excludeReservation(id){
+        return new Promise((s, f) =>{
+            conn.query(`DELETE FROM tb_reservations WHERE id = ? `, [
+                id
+            ], (err, result) =>{
+                if(err){
+                    f(err)
+    
+                } else{
+                    s(result)
+                }
+            })
+        })
     }
 
 }

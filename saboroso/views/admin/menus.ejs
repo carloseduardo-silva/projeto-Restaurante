@@ -168,7 +168,7 @@
 </html>
 
 <script src="/js/hcode-filereader.js"></script>
-
+<script src="/js/hcode-grid.js"></script>
 <script src="/js/hcode-formSave.js"></script>
 
 <script>
@@ -177,83 +177,34 @@
   new hcodeFileReader('#modal-create input[type=file]', '#modal-create img')
   new hcodeFileReader('#modal-update input[type=file]', '#modal-update img')
 
+  new HcodeGrid({
+    deleteURL:'/admin/menus',
+    deleteMsg:'Deseja realmente excluir ${data.title} ?',
+    onUpdateLoad: (form, name, data) =>{
 
-  let formCreate = document.querySelector('#modal-create form');
-//new method to the prototype plugin for saving the sent datas.
- formCreate.save().then(json =>{
-  window.location.reload()
- }).catch(err =>{
-    console.log(err)
- })
+      let input = form.querySelector(`[name=${name}]`)
+          
+          switch(name){
 
-
- let formUpdate = document.querySelector('#modal-update form');
-//new method to the prototype plugin for saving the datas edited
- formUpdate.save().then(json =>{
-  window.location.reload()
- }).catch(err =>{
-    console.log(err)
- });
-
-  
-  //returning the datas to the edit panel create
-  [...document.querySelectorAll('.btn-update')].forEach(btn =>{
-
-    btn.addEventListener('click', e=>{
-      //map de closest el with the atribute in the str
-      let tr = e.target.closest('[data-row]')
-      //datas from the row that had the editBtn clicked
-      let data = JSON.parse(tr.dataset.row)
-
-      
-      for(let name in data){
-        //throwing back the values from the panel to the edit menu panel
-        switch(name){
-          case "photo":
-          formUpdate.querySelector('img').src = "/"+data[name];
-          break;
-
-          default:
-            let input =  formUpdate.querySelector(`[name=${name}]`)
-            if(input) input.value = data[name]
-
-        }
-
-
-      }
-
-      $('#modal-update').modal('show')
-
-    })
-  })
-
-  //excluding datas
-  document.querySelectorAll('button.btn-delete').forEach(btn =>{
-
-     
-
-      btn.addEventListener('click', e =>{
-        let tr = e.target.closest('[data-row]')
-        let data = JSON.parse(tr.dataset.row)
-
-        if (confirm(`Deseja realmente excluir ${data.title} ?`)){
-
-          fetch(`/admin/menus/${data.id}`, {
-            method: 'DELETE'
-          })
-          .then(response => response.json())
-          .then(json => {
+            case "photo":
+                form.querySelector('img').src = "/"+data[name];
+            break;
+    
+            default:
               
-              window.location.reload()
-            }
-          )
-
-        }
-
-
+              if(input) input.value = data[name]
+    
+          }
+    }
+    
   })
-})
+
+
+
+
+
   
+
 
 
 </script>

@@ -231,64 +231,33 @@
 
 <script src="/js/hcode-formSave.js"></script>
 <script src="/js/moment.min.js"></script>
+<script src="/js/hcode-grid.js"></script>
 
 <script>
-     
-  let formCreate = document.querySelector('#modal-create form');
-//new method to the prototype plugin for saving the sent datas.
- formCreate.save().then(json =>{
-  window.location.reload()
- }).catch(err =>{
-    console.log(err)
- })
 
+  new HcodeGrid({
+    deleteURL:'/admin/reservations/${data.id}',
+    deleteMsg:'Deseja realmente excluir a reserva de ${data.name} ?',
+    onUpdateLoad: (form, name, data) =>{
 
- let formUpdate = document.querySelector('#modal-update form');
-//new method to the prototype plugin for saving the datas edited
- formUpdate.save().then(json =>{
-  window.location.reload()
- }).catch(err =>{
-    console.log(err)
- });
-
-
- document.querySelectorAll('button.btn-update').forEach(btn =>{
-
-  btn.addEventListener('click', e =>{
-
-    e.preventDefault()
-
-    let tr = e.target.closest('[data-row]')
-    let data = JSON.parse(tr.dataset.row)
-
-    console.log(data)
-
+    let input = form.querySelector(`[name=${name}]`)
     
-    for(let name in data)  {
-
-      let input = formUpdate.querySelector(`[name=${name}]`)
-
       switch(name){
 
-        case "date":
+      case "date":
 
-          if(input) input.value = moment(data[name]).format('YYYY-MM-DD')
-          
-        break;
+        if(input) input.value = moment(data[name]).format('YYYY-MM-DD')
+        
+      break;
 
-        default:
-          
+      default:
+        
+        if(input) input.value = data[name]
 
-          if(input) input.value = data[name]
-
-      }
     }
-
+}
   })
-
- })
-
-    
+     
 
 
 </script>
