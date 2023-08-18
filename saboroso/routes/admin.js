@@ -6,6 +6,7 @@ var menus = require('.././inc/menus');
 var reservation = require('../inc/reservation');
 var contact = require('.././inc/contact')
 var moment = require('moment')
+var emails = require('../inc/emails')
 
 moment.locale('pt-br')
 
@@ -197,10 +198,60 @@ router.get('/users', function(req, res, next){
     })
 
 })
+
+router.post('/users', function(req, res, next){
+
+
+    users.save(req.fields).then(result =>{
+
+        res.send(result)
+
+    }).catch(err =>{
+
+        res.send(err)
+    })
+
+
+})
+
+router.delete('/users/:id', function(req, res, next){
+
+    users.excludeUser(req.params.id).then(result =>{
+
+        res.send(result)
+
+    }).catch(err =>{
+
+        res.send(err)
+
+    })
+
+})
+
 router.get('/emails', function(req, res, next){
 
-    res.render('admin/emails',  admin.getParams(req))
+    emails.getEmail().then(result =>{
+        
+        res.render('admin/emails',  admin.getParams(req))
+
+    })
+
 })
+
+router.delete('/emails/:id', function(req, res, next){
+
+    emails.excludeEmail(req.params.id).then(result =>{
+
+        res.send(result)
+
+    }).catch(err =>{
+
+        res.send(err)
+
+    })
+
+})
+
 
 
 module.exports = router

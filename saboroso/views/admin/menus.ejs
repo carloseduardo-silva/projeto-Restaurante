@@ -168,8 +168,8 @@
 </html>
 
 <script src="/js/hcode-filereader.js"></script>
-<script src="/js/hcode-grid.js"></script>
 <script src="/js/hcode-formSave.js"></script>
+<script src="/js/hcode-grid.js"></script>
 
 <script>
   
@@ -178,7 +178,7 @@
   new hcodeFileReader('#modal-update input[type=file]', '#modal-update img')
 
   new HcodeGrid({
-    deleteURL:'/admin/menus',
+    deleteURL:'/admin/menus/${data.id}',
     deleteMsg:'Deseja realmente excluir ${data.title} ?',
     onUpdateLoad: (form, name, data) =>{
 
@@ -187,7 +187,9 @@
           switch(name){
 
             case "photo":
-                form.querySelector('img').src = "/"+data[name];
+              console.log('chamei')
+              //fix the edit button to menus (try debugs)
+              //form.querySelector('img').src = "/"+data[name];
             break;
     
             default:
@@ -195,16 +197,6 @@
               if(input) input.value = data[name]
     
           }
-    }
-    
-  })
-
-
-
-
-
-  
-
-
+    }})
 
 </script>

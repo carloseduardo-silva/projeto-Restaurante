@@ -63,5 +63,72 @@ module.exports = {
             })
 
         })
+    },
+
+    save(data){
+
+        return new Promise((s, f) =>{
+
+            let query, params = [
+                data.name,
+                data.email
+
+            ]
+
+            
+            if(parseInt(data.id) > 0){
+                
+                params.push(data.id)
+
+                query = `
+                UPDATE tb_menus 
+                SET name = ?,
+                    email = ?
+                WHERE id = ?`
+
+            }
+            else{
+                params.push(data.password)
+                query =`INSERT INTO tb_users (name, email, password)
+                VALUES (?, ?, ?)`
+            }
+
+            conn.query(query, params, (err, results) => {
+    
+                if(err){
+                    f(err)
+                }
+                else{
+                    s(results)
+                }
+    
+            })
+
+        })
+
+
+
+    },
+
+    excludeUser(id){
+
+        return new Promise((s, f) =>{
+
+            conn.query(`DELETE FROM tb_users WHERE id = ? `, [
+                id
+            ], (err, result) =>{
+                if(err){
+                    f(err)
+    
+                } else{
+                    s(result)
+                }
+            }
+            )
+
+        })
     }
-}
+
+
+
+    }

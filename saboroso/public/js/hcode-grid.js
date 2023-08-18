@@ -4,9 +4,11 @@ class HcodeGrid {
 
         configs.listeners = Object.assign({
 
-              afterUpdateClick: (e) =>{
+              afterUpdateClick: (e, form) =>{
 
                 $('modal-update').modal('show')
+                console.log('abri o modal')
+                console.log(form.closest('div#modal-update'))
               
             },
 
@@ -114,15 +116,15 @@ class HcodeGrid {
 
             btn.addEventListener('click', e =>{
 
-            this.fireEvent('beforeUpdateClick,' [e])
-            let data =  this.getDatarow(e)
+            let data = this.getDatarow(e)
+           
           
               for(let name in data)  {
 
                 this.options.onUpdateLoad(this.formUpdate, name, data)
               }
 
-              this.fireEvent('afterUpdateClick', [e])
+              this.fireEvent('afterUpdateClick', [e , this.formUpdate])
             });
           
            });
