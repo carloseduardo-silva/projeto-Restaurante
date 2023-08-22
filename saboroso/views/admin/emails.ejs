@@ -75,5 +75,14 @@
 
 
 </body>
-
 </html>
+
+<script src="/js/hcode-formSave.js"></script>
+<script src="/js/hcode-grid.js"></script>
+
+<script> 
+new HcodeGrid({
+    deleteURL:'/admin/emails/${data.id}',
+    deleteMsg:'Deseja realmente excluir ${data.email} da liste de Emails?'
+})
+</script>

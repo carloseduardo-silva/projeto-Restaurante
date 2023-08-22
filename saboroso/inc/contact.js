@@ -57,7 +57,27 @@ module.exports = {
                 })
     
             })
-        }
+        },
+
+    excludeContact(id){
+
+        return new Promise((s, f) =>{
+
+            conn.query(`DELETE FROM tb_contacts WHERE id = ?`, [
+                id
+            ], (err, results) =>{
+                if(err){
+                    f(err)
+                }
+                else{
+                    s(results)
+                }
+
+            })
+
+        })
+
+    }
 
     
 

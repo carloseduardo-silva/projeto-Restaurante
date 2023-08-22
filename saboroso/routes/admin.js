@@ -98,6 +98,22 @@ router.get('/contacts', function(req, res, next){
 
 })
 
+router.delete('/contacts/:id', function(req, res, next){
+
+    contact.excludeContact(req.params.id).then(result =>{
+
+        res.send(result)
+
+    }).catch(err =>{
+
+        res.send(err)
+
+    })
+
+})
+
+
+
 router.get('/menus', function(req, res, next){
     
     menus.getMenus().then(data =>{

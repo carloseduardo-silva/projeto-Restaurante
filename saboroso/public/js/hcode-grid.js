@@ -4,11 +4,11 @@ class HcodeGrid {
 
         configs.listeners = Object.assign({
 
-              afterUpdateClick: (e, form) =>{
+              afterUpdateClick: (e) =>{
 
-                $('modal-update').modal('show')
+                $(this.options.modalUpdate).modal('show')
                 console.log('abri o modal')
-                console.log(form.closest('div#modal-update'))
+                
               
             },
 
@@ -45,14 +45,20 @@ class HcodeGrid {
         this.options = Object.assign({   
             formCreate:'#modal-create form',
             formUpdate:'#modal-update form',
+            modalCreate:'#modal-create',
+            modalUpdate:'#modal-update',
             btnUpdate: 'button.btn-update',
-            btnDelete: 'button.btn-delete'
+            btnDelete: 'button.btn-delete',
+            btnInfo: 'button.btn-info'
+       
     }, configs)
 
         this.formUpdate = document.querySelector(this.options.formUpdate);
 
         this.formCreate =  document.querySelector(this.options.formCreate);
 
+        
+      
         this.initForms()
         this.initButtons()
 
@@ -61,7 +67,7 @@ class HcodeGrid {
 
     fireEvent(name, args){
 
-        console.log(this.options.listeners[name])
+        console.log(this.options.listeners[name]) 
 
         if(typeof this.options.listeners[name] === 'function'){
 
@@ -73,7 +79,8 @@ class HcodeGrid {
 
     initForms(){
 
-      
+        
+
         //new method to the prototype plugin for saving the sent datas.
          this.formCreate.save().then(json =>{
 
@@ -116,15 +123,15 @@ class HcodeGrid {
 
             btn.addEventListener('click', e =>{
 
-            let data = this.getDatarow(e)
-           
-          
+              e.preventDefault()
+              let data = this.getDatarow(e)
+
               for(let name in data)  {
 
                 this.options.onUpdateLoad(this.formUpdate, name, data)
               }
-
-              this.fireEvent('afterUpdateClick', [e , this.formUpdate])
+              //bug open and closing just with btnUpdates reservation/contacts
+              //this.fireEvent('afterUpdateClick', (e))
             });
           
            });
@@ -133,8 +140,7 @@ class HcodeGrid {
            document.querySelectorAll(this.options.btnDelete).forEach(btn =>{
              btn.addEventListener('click', e =>{
               
-                
-                let data = this.getDatarow(e)
+              let data = this.getDatarow(e)
           
               if(confirm(eval("`"+ this.options.deleteMsg +"`"))){
           

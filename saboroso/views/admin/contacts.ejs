@@ -77,8 +77,21 @@
 
     <%- include("inc/admin-footer") -%>
   </div>
-
-
 </body>
 
+
+
 </html>
+
+<script src="/js/hcode-grid.js"></script>
+
+<script>
+
+  new HcodeGrid({
+    deleteURL: '/admin/contacts/${data.id}',
+    deleteMsg: 'Você realmente deseja excluir o contato: ${data.name}?'
+  })
+
+
+
+</script>
