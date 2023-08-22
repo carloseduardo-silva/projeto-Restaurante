@@ -6,8 +6,9 @@ class HcodeGrid {
 
               afterUpdateClick: (e) =>{
 
-                $(this.options.modalUpdate).modal('show')
-                console.log('abri o modal')
+               
+                  $(this.options.modalUpdate).modal('show')
+              
                 
               
             },
@@ -49,17 +50,30 @@ class HcodeGrid {
             modalUpdate:'#modal-update',
             btnUpdate: 'button.btn-update',
             btnDelete: 'button.btn-delete',
-            btnInfo: 'button.btn-info'
+            btnInfo: 'button.btn-info',
+            onUpdateLoad: (form, name, data) =>{
+
+              let input = form.querySelector(`[name=${name}]`)
+  
+                if(input) input.value = data[name]
+          
+              }
        
     }, configs)
+
+        this.rows = document.querySelectorAll('table tbody tr')
 
         this.formUpdate = document.querySelector(this.options.formUpdate);
 
         this.formCreate =  document.querySelector(this.options.formCreate);
 
-        
-      
+
+
+       if(this.formCreate && this.formUpdate !== 'null'){
+
         this.initForms()
+       }
+      
         this.initButtons()
 
     }
@@ -67,7 +81,7 @@ class HcodeGrid {
 
     fireEvent(name, args){
 
-        console.log(this.options.listeners[name]) 
+     
 
         if(typeof this.options.listeners[name] === 'function'){
 
@@ -114,54 +128,67 @@ class HcodeGrid {
         return  JSON.parse(tr.dataset.row)
 
     }
+    
+    btnUpdateClick(e){
+      
+      let data = this.getDatarow(e)
+
+      for(let name in data)  {
+
+        this.options.onUpdateLoad(this.formUpdate, name, data)
+      }
+      
+      this.fireEvent('afterUpdateClick', [e])
+      
+    }
+
+    btnExcludeClick(e){
+
+      let data = this.getDatarow(e)
+          
+      if(confirm(eval("`"+ this.options.deleteMsg +"`"))){
+  
+        fetch(eval("`"+ this.options.deleteURL +"`"), {
+          method:'DELETE'
+    
+        })
+        .then(response => response.json())
+        .then(
+          json =>{
+            this.fireEvent('afterDeleteClick')
+          }
+        )
+  
+      }
+
+    }
 
 
     initButtons(){
 
-        //update
-        document.querySelectorAll(this.options.btnUpdate).forEach(btn =>{
 
-            btn.addEventListener('click', e =>{
+      this.rows.forEach(row => {
 
-              e.preventDefault()
-              let data = this.getDatarow(e)
+        row.querySelectorAll('.btn').forEach( btn =>{
 
-              for(let name in data)  {
+          btn.addEventListener('click', e =>{
 
-                this.options.onUpdateLoad(this.formUpdate, name, data)
-              }
-              //bug open and closing just with btnUpdates reservation/contacts
-              //this.fireEvent('afterUpdateClick', (e))
-            });
-          
-           });
+            if(btn.classList.contains('btn-update')){
 
-          //exclude
-           document.querySelectorAll(this.options.btnDelete).forEach(btn =>{
-             btn.addEventListener('click', e =>{
+              this.btnUpdateClick(e)
               
-              let data = this.getDatarow(e)
-          
-              if(confirm(eval("`"+ this.options.deleteMsg +"`"))){
-          
-                fetch(eval("`"+ this.options.deleteURL +"`"), {
-                  method:'DELETE'
-            
-                })
-                .then(response => response.json())
-                .then(
-                  json =>{
-                    this.fireEvent('afterDeleteClick')
-                  }
-                )
-          
-              }
-          
+            } else if(btn.classList.contains('btn-delete')){
               
-            })
-           })
+              this.btnExcludeClick(e)
 
+            } else{
 
+              this.fireEvent('buttonClick', [e.target, this.getDatarow(e), e])
+
+            }
+          })
+        })
+      })
     }
 
 }

@@ -230,6 +230,23 @@ router.post('/users', function(req, res, next){
 
 })
 
+router.post('/users/password-change', function(req, res, next){
+
+
+    users.changePassword(req.fields).then(result =>{
+
+        res.send(result)
+
+    }).catch(err =>{
+
+        res.send({
+            error: err
+        })
+    })
+
+
+})
+
 router.delete('/users/:id', function(req, res, next){
 
     users.excludeUser(req.params.id).then(result =>{

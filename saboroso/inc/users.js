@@ -73,7 +73,7 @@ module.exports = {
                 data.name,
                 data.email
 
-            ]
+            ];
 
             
             if(parseInt(data.id) > 0){
@@ -81,8 +81,9 @@ module.exports = {
                 params.push(data.id)
 
                 query = `
-                UPDATE tb_menus 
-                SET name = ?,
+                UPDATE tb_users 
+                SET 
+                    name = ?,
                     email = ?
                 WHERE id = ?`
 
@@ -127,6 +128,43 @@ module.exports = {
             )
 
         })
+    },
+
+    changePassword(data){
+      
+      
+        
+        return new Promise((s, f) =>{
+
+            
+            if(JSON.stringify(data.password) === `[""]`){
+                f('Preencha a senha corretamente!')
+            }
+            else if(data.password !== data.passwordConfirm){
+                f('Confirme a senha corretamente')
+            }
+            else{
+                conn.query(`
+                    UPDATE tb_users 
+                    SET password = ? 
+                    WHERE id = ?
+                `, [
+                    data.password,
+                    data.id
+                ], (err, results) =>{
+
+                    if(err) { 
+                        f(err.message)}
+                    else{ 
+                        s(results)}
+
+                })
+            }
+
+        })
+
+
+
     }
 
 

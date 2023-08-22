@@ -1,5 +1,7 @@
 var conn = require('./db')
 
+
+//miss config the tb_emails(dont existis in the mysql) + emails.ejs with assinc datas.
 module.exports = {
 
     getEmail(){

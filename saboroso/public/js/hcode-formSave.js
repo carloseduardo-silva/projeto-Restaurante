@@ -1,6 +1,8 @@
-HTMLFormElement.prototype.save = function(){
+HTMLFormElement.prototype.save = function(config){
 
     let form = this
+
+    
 
     return new Promise((s, f) =>{
 
@@ -16,8 +18,16 @@ HTMLFormElement.prototype.save = function(){
             })
             .then(response => response.json())
             .then(json => {
+
+                if(json.error){
+                    alert(json.error)
+                    
+                } else{
+
+                    s(json)
+
+                }
                 
-                s(json)
         
             }).catch(err =>{
                 f(err)
