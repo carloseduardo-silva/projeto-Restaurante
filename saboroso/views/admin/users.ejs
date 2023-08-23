@@ -200,9 +200,17 @@ new HcodeGrid({
 
 })
 
-document.querySelector('#modal-update-password form').save().then(results => {
-  //window.location.reload()
+document.querySelector('#modal-update-password form').save({
+  sucess:() =>{
+    window.location.reload()
 
+  },
+  failure:(err) => {
+    alert(err)
+
+  }
 })
+
+
 
 </script>

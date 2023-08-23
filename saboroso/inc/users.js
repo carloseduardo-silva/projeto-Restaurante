@@ -140,10 +140,9 @@ module.exports = {
             if(JSON.stringify(data.password) === `[""]`){
                 f('Preencha a senha corretamente!')
             }
-            else if(data.password !== data.passwordConfirm){
-                f('Confirme a senha corretamente')
-            }
-            else{
+        
+            else  if(JSON.stringify(data.password) == JSON.stringify(data.passwordConfirm)) 
+            {
                 conn.query(`
                     UPDATE tb_users 
                     SET password = ? 
@@ -159,6 +158,10 @@ module.exports = {
                         s(results)}
 
                 })
+            }
+            else{
+          
+                f('Confirme a senha corretamente')
             }
 
         })

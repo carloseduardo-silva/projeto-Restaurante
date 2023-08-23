@@ -89,30 +89,33 @@ class HcodeGrid {
 
         }
     }
-
+   
 
     initForms(){
 
         
 
         //new method to the prototype plugin for saving the sent datas.
-         this.formCreate.save().then(json =>{
-
-          this.fireEvent('afterFormCreate')
-
-         }).catch(err =>{
+         this.formCreate.save({
+          sucess:() =>{
+            this.fireEvent('afterFormCreate')
+          },
+          failure:() =>{
             this.fireEvent('afterFormCreateError')
+          }
          })
         
     
         //new method to the prototype plugin for saving the datas edited
-         this.formUpdate.save().then(json =>{
-
+      
+         this.formUpdate.save({
+          sucess:() =>{
             this.fireEvent('afterFormUpdate')
-
-         }).catch(err =>{
+          },
+          failure:() =>{
             this.fireEvent('afterFormUpdateError')
-         });
+          }
+         })
         
         
      
