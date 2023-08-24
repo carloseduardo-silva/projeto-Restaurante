@@ -160,9 +160,13 @@ router.delete('/menus/:id', function(req, res, next){
 
 })
 
-router.get('/reservations', function(req, res, next){
+router.get('/reservations/', function(req, res, next){
 
-    reservation.getReservations().then(data =>{
+    reservation.getReservations(
+        req.query.page,
+        req.query.start,
+        req.query.end
+        ).then(data =>{
 
         res.render('admin/reservations',  admin.getParams(req, {
             data,
@@ -263,9 +267,10 @@ router.delete('/users/:id', function(req, res, next){
 
 router.get('/emails', function(req, res, next){
 
-    emails.getEmail().then(result =>{
+    emails.getEmail().then(data =>{
         
-        res.render('admin/emails',  admin.getParams(req))
+        res.render('admin/emails',  admin.getParams(req, {
+            data}))
 
     })
 

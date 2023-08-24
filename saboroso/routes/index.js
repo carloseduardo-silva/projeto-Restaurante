@@ -4,6 +4,8 @@ var menus = require('./../inc/menus')
 var conn = require('./../inc/db')
 var reservation = require('./../inc/reservation')
 var contact = require('./../inc/contact')
+var email = require('./../inc/emails');
+const emails = require('./../inc/emails');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -107,5 +109,22 @@ router.get('/services', function(req, res, next) {
      isHome: false
   })
 })
+
+router.post('/subscribe', function(req, res, next) {
+
+  console.log(req.fields.email)
+
+  emails.save(req).then(results=>{
+
+    console.log(results)
+    res.send(results)
+    
+
+  }).catch(err=>{
+
+    res.send(err)
+
+  });
+  });
 
 module.exports = router;

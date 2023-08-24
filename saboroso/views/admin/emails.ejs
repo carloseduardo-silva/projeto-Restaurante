@@ -52,12 +52,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
-                                <tr data-row="">
-                                    <td>1.</td>
-                                    <td>contato@hcode.com.br</td>
+                                <% data.forEach(row => {  %>
+
+                                <tr data-row="<%= JSON.stringify(row)%>">
+                                    <td><%= row.id  %> </td>
+                                    <td><%= row.email  %> </td>
                                     <td><button type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-trash"></i> Excluir</button></td>
                                 </tr>
+
+                           <% }) %>
                             </tbody>
                         </table>
                     </div>
@@ -84,6 +87,6 @@
 <script> 
 new HcodeGrid({
     deleteURL:'/admin/emails/${data.id}',
-    deleteMsg:'Deseja realmente excluir ${data.email} da liste de Emails?'
+    deleteMsg:'Deseja realmente excluir ${data.email} da lista de Emails?'
 })
 </script>

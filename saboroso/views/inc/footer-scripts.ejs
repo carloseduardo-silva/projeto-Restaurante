@@ -22,5 +22,32 @@
 	<script src="js/bootstrap-datetimepicker.min.js"></script>
 
 
+	<script src="/js/hcode-formsave.js"></script>
+
+
+	<script> 
+	
+	let formSubscribe = document.querySelector('#form-subscribe')
+
+	if(formSubscribe){
+
+		formSubscribe.save({
+			sucess:() =>{
+				alert('Email cadastrado com sucesso')
+				formSubscribe.querySelector('input#email').value = ''
+
+			},
+
+			failure:(err) =>{
+
+				alert(err)
+}
+		})
+
+	}
+		
+	</script>
+
+
 	<!-- Main -->
 	<script src="js/main.js"></script>

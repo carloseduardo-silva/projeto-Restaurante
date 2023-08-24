@@ -8,7 +8,7 @@ module.exports = {
 
         return new Promise((s, f) =>{
 
-            conn.query(`SELECT * FROM tb_menus`, (err, result) =>{
+            conn.query(`SELECT * FROM tb_emails`, (err, result) =>{
 
                 if(err){
                     f(err)}
@@ -21,6 +21,36 @@ module.exports = {
         })
 
     },
+
+    save(req){
+
+        return new Promise((s, f) => {
+
+            if(!req.fields.email){
+               f('Preencha o Email')
+              } 
+              else{
+
+                conn.query(`
+                INSERT INTO tb_emails (email) VALUES (?)`,
+                [
+                  req.fields.email
+                ],
+                 (err, results) =>{
+                  if(err){
+                    f(err.message)
+            
+                  } else{
+                    s(results)
+                    
+                  }
+                })
+              }
+        })
+    },
+
+
+
 
     excludeEmail(id){
 
