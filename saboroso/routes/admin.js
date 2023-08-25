@@ -160,18 +160,23 @@ router.delete('/menus/:id', function(req, res, next){
 
 })
 
-router.get('/reservations/', function(req, res, next){
+router.get('/reservations', function(req, res, next){
 
-    reservation.getReservations(
-        req.query.page,
-        req.query.start,
-        req.query.end
-        ).then(data =>{
+    let start = (req.query.start) ? req.query.start : moment().subtract(1, 'year').format('YYYY-MM-DD')
+
+    let end = (req.query.end) ? req.query.end : moment().subtract(1, 'year').format('YYYY-MM-DD')
+
+    reservation.getReservations(req).then(pag =>{
 
         res.render('admin/reservations',  admin.getParams(req, {
-            data,
-            date: '',
-            moment
+            
+            date: {
+                start,
+                end
+            },
+            data: pag.data,
+            moment,
+            links: pag.links
         }))
 
     })
