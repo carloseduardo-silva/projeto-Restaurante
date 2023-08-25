@@ -110,6 +110,8 @@ class Pagination{
 
         }
 
+
+        //before page button
         if(this.getCurrentPage() > 1) {
             links.push({
                 text:'«',
@@ -129,6 +131,7 @@ class Pagination{
 
         }
 
+        //next page button
         if(this.getCurrentPage() < this.getTotalPages()){
 
             links.push({
