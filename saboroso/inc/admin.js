@@ -82,7 +82,6 @@ module.exports = {
                 menu.active = true
             }
 
-            console.log(req.url , menu.href)
 
         })
         
