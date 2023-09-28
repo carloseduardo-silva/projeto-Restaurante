@@ -20,6 +20,10 @@ class Pagination{
 
         this.currentPage = page -1
 
+        if(this.currentPage < 0){
+            this.currentPage = 0
+        }
+
         this.params.push(
             // start of the limit => page 1 start on 0
            this.currentPage * this.itensPerPage,
@@ -27,9 +31,10 @@ class Pagination{
             this.itensPerPage
         )
 
+       
        return new Promise((s, f) =>{
 
-            conn.query( [this.query, 'SELECT FOUND_ROWS() AS FOUND_ROWS'].join(';'), 
+            conn.query(  [this.query, 'SELECT FOUND_ROWS() AS FOUND_ROWS'].join(';'), 
                 this.params,
                 (err, results) =>{
                 if(err){
@@ -40,7 +45,7 @@ class Pagination{
                     this.data = results[0] // datas came from database
                     this.total = results[1][0].FOUND_ROWS // assync query that brings the column with the total rows found.
                     this.totalPages = Math.ceil(this.total / this.itensPerPage);
-                    this.currentPage ++
+                    this.currentPage++
 
                     s(this.data)
                 }
