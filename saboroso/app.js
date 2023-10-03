@@ -5,8 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
 var RedisStore = require('connect-redis') (session);
-var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin');
+
 var formidable = require('formidable')
 var path = require('path')
 var http = require('http')
@@ -24,11 +23,14 @@ io.on('connection', (socket) =>{
 
   console.log('a user connected')
 
-  io.emit('reservations update', {
+  io.emit('dashboard update', {
     date:new Date()
   })
 
 })
+
+var indexRouter = require('./routes/index')(io);
+var adminRouter = require('./routes/admin')(io);
 
 
 app.use(function(req, res, next){

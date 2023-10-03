@@ -88,7 +88,7 @@
           </div>
           <!-- /.col -->
           <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box" onclick="window.location.href = '/user'" style="cursor:pointer">
+            <div class="info-box" onclick="window.location.href = '/admin/users'" style="cursor:pointer">
               <span class="info-box-icon bg-yellow">
                 <i class="ion ion-ios-people-outline"></i>
               </span>
@@ -134,7 +134,7 @@
 
       document.querySelector('#nrmenus').innerHTML = json.nrmenus
 
-      document.querySelector('#nrusers').innerHTML = json.nrrusers
+      document.querySelector('#nrusers').innerHTML = json.nrusers
 		})
 
 	}
@@ -142,7 +142,9 @@
 
 	let socket = io();
 
-	socket.on('reservations update', function(data){
+	socket.on('dashboard update', function(data){
+
+    refreshDashBoard()
 		console.log('recebi o evento', data)
 	})
 

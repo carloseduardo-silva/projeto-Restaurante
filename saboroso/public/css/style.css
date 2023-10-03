@@ -5,6 +5,12 @@
   font-weight: normal;
   font-style: normal;
 }
+
+:root{
+
+  --var-color-amarelo: #FBB448;
+
+}
 /* =======================================================
 *
 * 	Template Style 
@@ -807,6 +813,13 @@ form label {
   border: 1px solid rgba(255, 255, 255, 0.8);
   background: #FBB448;
 }
+
+#gtco-features .feature-center .icon:hover{
+  transform: scale(1.15);
+  transition: 400ms;
+}
+
+
 #gtco-features .feature-center .icon i {
   color: #fff;
   font-size: 40px;
@@ -1380,9 +1393,9 @@ form label {
 }
 
 .btn-info {
-  background: #5bc0de;
+  background: var(--var-color-amarelo);
   color: #fff;
-  border: 2px solid #5bc0de;
+  border: 2px solid var(--var-color-amarelo);
 }
 .btn-info:hover, .btn-info:focus, .btn-info:active {
   background: #46b8da !important;
@@ -1704,6 +1717,7 @@ form label {
   background: none;
   border: 2px solid #FBB448;
 }
+
 
 .fh5co-card-item {
   display: block;

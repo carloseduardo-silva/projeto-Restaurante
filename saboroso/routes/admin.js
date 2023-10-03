@@ -9,7 +9,9 @@ var moment = require('moment')
 var emails = require('../inc/emails')
 
 
-moment.locale('pt-br')
+module.exports = function(io){
+
+    moment.locale('pt-br')
 
 
 //middleware verificating if the client already did the login(if has a req.session.user), not allowing acess to all pages before a login.
@@ -114,7 +116,7 @@ router.delete('/contacts/:id', function(req, res, next){
     contact.excludeContact(req.params.id).then(result =>{
 
         res.send(result)
-
+        io.emit('dashboard update')
     }).catch(err =>{
 
         res.send(err)
@@ -145,7 +147,7 @@ router.post('/menus', function(req, res, next){
    menus.postMenus(req.fields, req.files).then(results =>{
         
         res.send(results)
-        
+        io.emit('dashboard update')
 
     }).catch(err =>{
        res.send(err)
@@ -162,7 +164,7 @@ router.delete('/menus/:id', function(req, res, next){
     menus.excludeMenu(req.params.id).then(result =>{
 
         res.send(result)
-
+        io.emit('dashboard update')
     }).catch(err =>{
 
         res.send(err)
@@ -213,7 +215,7 @@ router.post('/reservations', function(req, res, next){
     reservation.save(req.fields, req.files).then(result =>{
 
         res.send(result)
-
+        
     }).catch(err =>{
 
         res.send(err)
@@ -227,7 +229,7 @@ router.delete('/reservations/:id', function(req, res, next){
     reservation.excludeReservation(req.params.id).then(result =>{
 
         res.send(result)
-
+        io.emit('dashboard update')
     }).catch(err =>{
 
         res.send(err)
@@ -254,7 +256,7 @@ router.post('/users', function(req, res, next){
     users.save(req.fields).then(result =>{
 
         res.send(result)
-
+        io.emit('dashboard update')
     }).catch(err =>{
 
         res.send(err)
@@ -310,7 +312,7 @@ router.delete('/emails/:id', function(req, res, next){
     emails.excludeEmail(req.params.id).then(result =>{
 
         res.send(result)
-
+        io.emit('dashboard update')
     }).catch(err =>{
 
         res.send(err)
@@ -319,6 +321,5 @@ router.delete('/emails/:id', function(req, res, next){
 
 })
 
-
-
-module.exports = router
+    return router
+}

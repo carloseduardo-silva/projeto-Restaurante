@@ -8,7 +8,10 @@ var email = require('./../inc/emails');
 const emails = require('./../inc/emails');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+
+module.exports = function(io){
+
+  router.get('/', function(req, res, next) {
     menus.getMenus().then(results =>{
       res.render('index', { 
         title: 'Restaurante Saboroso',
@@ -38,7 +41,7 @@ router.post('/contact', function(req, res, next) {
         req.body = {}
 
         contact.render(res, req, null, 'Mensagem enviada com sucesso!')
-
+        io.emit('dashboard update')
       }).catch(err =>{
         contact.render(res, req, err.message)
       })
@@ -92,7 +95,7 @@ router.post('/reservation', function(req, res, next) {
       req.body = {}
 
       reservation.render(req, res, null, 'Reserva realizada com sucesso!')
-
+      io.emit('dashboard update')
     }).catch(err =>{
       reservation.render(req, res, err.message)
     })
@@ -116,9 +119,8 @@ router.post('/subscribe', function(req, res, next) {
 
   emails.save(req).then(results=>{
 
-    console.log(results)
     res.send(results)
-    
+    io.emit('dashboard update')
 
   }).catch(err=>{
 
@@ -127,4 +129,6 @@ router.post('/subscribe', function(req, res, next) {
   });
   });
 
-module.exports = router;
+
+  return router
+}
