@@ -8,6 +8,7 @@ var contact = require('.././inc/contact')
 var moment = require('moment')
 var emails = require('../inc/emails')
 
+
 moment.locale('pt-br')
 
 
@@ -49,6 +50,7 @@ router.get('/', function(req, res, next){
 
 })
 
+
 router.get('/logout', function(req, res, next){
 
     delete req.session.user;
@@ -85,6 +87,15 @@ router.get('/login', function(req, res, next){
 
     users.render(res, req , null)
 })
+
+router.get('/dashboard', function(req, res, next){
+
+    reservation.dashBoard().then(data =>{
+        res.send(data)
+    })
+
+})
+
 
 router.get('/contacts', function(req, res, next){
 

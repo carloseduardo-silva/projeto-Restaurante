@@ -46,7 +46,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Reservas</span>
-                <span class="info-box-number"><%= reservas%> </span>
+                <span id="nrreservations"  class="info-box-number"><%= reservas%> </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -61,7 +61,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Contatos</span>
-                <span class="info-box-number"><%= contatos%> </span>
+                <span id="nrcontacts"  class="info-box-number"><%= contatos%> </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -80,7 +80,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Menu</span>
-                <span class="info-box-number"><%= menu%> </span>
+                <span id="nrmenus"  class="info-box-number"><%= menu%> </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -95,7 +95,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Usuários</span>
-                <span class="info-box-number"><%= usersNumber%> </span>
+                <span  id="nrusers" class="info-box-number"><%= usersNumber%> </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -117,3 +117,33 @@
 </body>
 
 </html>
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+
+
+	function refreshDashBoard(){
+
+		fetch('/admin/dashboard').then(response => response.json()).then(json =>{
+			
+      document.querySelector('#nrreservations').innerHTML = json.nrreservations
+
+      document.querySelector('#nrcontacts').innerHTML = json.nrcontacts
+
+      document.querySelector('#nrmenus').innerHTML = json.nrmenus
+
+      document.querySelector('#nrusers').innerHTML = json.nrrusers
+		})
+
+	}
+
+
+	let socket = io();
+
+	socket.on('reservations update', function(data){
+		console.log('recebi o evento', data)
+	})
+
+</script>
